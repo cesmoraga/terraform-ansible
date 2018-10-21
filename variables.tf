@@ -14,6 +14,12 @@ variable "network" {
   default = "ovirt-network"
 }
 
+variable "mysql" {
+  default = {
+  	"passwordRoot"	=  "cmoraga"		
+  }
+}
+
 variable "vm_type" {
   default {
     "512gig"     = "f1-micro"
@@ -31,7 +37,3 @@ variable "os" {
   }
 }
 
-variable "ssh_key_private" {
-  default     = "~/.ssh/id_rsa"
-  description = "Path to the SSH public key for accessing cloud instances. Used for creating AWS keypair."
-}

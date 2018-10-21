@@ -80,17 +80,19 @@ resource "google_compute_instance" "db-vm" {
   }
  
   provisioner "remote-exec" {
-    inline = ["sudo yum install -y python python-simplejson"]
+    inline = [
+	"sudo yum install -y http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm",
+	"sudo yum install -y mysql-community-server",
+	"sudo systemctl start mysqld",
+	"systemctl enable mysqld.service",
+	"mysqladmin -u root password ${var.mysql["passwordRoot"]}"
+	]
 
     connection {
       type        = "ssh"
       user        = "cesar_moraga_galdames"
       private_key = "${file("~/.ssh/google_compute_engine")}"
     }
-  }
-
-  provisioner "local-exec" {
-    command = "ansible-playbook -u root -i '${self.public_ip},' --private-key ${file("~/.ssh/google_compute_engine")} -T 300 playbook.yml" 
   }
 
 }
