@@ -85,7 +85,9 @@ resource "google_compute_instance" "db-vm" {
 	"sudo yum install -y mysql-community-server",
 	"sudo systemctl start mysqld",
 	"systemctl enable mysqld.service",
-	"mysqladmin -u root password ${var.mysql["passwordRoot"]}"
+	"mysqladmin -u root password ${var.mysql["passwordRoot"]}",
+	"echo 'create database test;' | mysql -u username -pmysql -u username -p ",
+	"mysql -u root -p${var.mysql["passwordRoot"]} < /tmp/dump.sql"
 	]
 
     connection {
