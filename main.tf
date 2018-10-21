@@ -82,11 +82,12 @@ resource "google_compute_instance" "db-vm" {
   provisioner "remote-exec" {
     inline = [
 	"sudo yum install -y http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm",
-	"sudo yum install -y mysql-community-server",
+	"sudo yum install -y mysql-community-server wget",
 	"sudo systemctl start mysqld",
 	"systemctl enable mysqld.service",
 	"mysqladmin -u root password ${var.mysql["passwordRoot"]}",
 	"echo 'create database test;' | mysql -u username -pmysql -u username -p ",
+	"wget https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/dump.sql -O /tmp/dump.sql",
 	"mysql -u root -p${var.mysql["passwordRoot"]} < /tmp/dump.sql"
 	]
 
