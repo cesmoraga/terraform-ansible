@@ -1,7 +1,7 @@
 # This Dockerfile is to test importing from a Dockerfile
 FROM maven:3.5-jdk-8
 
-COPY https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/AppBuild/key /tmp/key
+ADD https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/AppBuild/key /tmp/key
 
 WORKDIR /root
 
