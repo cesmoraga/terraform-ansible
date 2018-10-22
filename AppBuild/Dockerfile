@@ -12,6 +12,7 @@ RUN mvn clean install
 
 ADD https://github.com/glowroot/glowroot/releases/download/v0.11.1/glowroot-0.11.1-dist.zip /tmp/glowroot.zip
 RUN unzip /tmp/glowroot.zip
+ADD https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/AppBuild/admin.json glowroot/admin.json
 
 EXPOSE 3000 4000
 
