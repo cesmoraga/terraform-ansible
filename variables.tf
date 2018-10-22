@@ -17,6 +17,9 @@ variable "network" {
 variable "mysql" {
   default = {
   	"passwordRoot"	=  "cmoraga"		
+  	"ipfuente"	=  "127.0.0.1"
+	"userTest"	=  "cesmoraga"
+	"passwordTest"	=  "cmoraga"	
   }
 }
 

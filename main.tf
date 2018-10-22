@@ -32,14 +32,16 @@ resource "google_compute_instance" "applications-vm" {
       // Ephemeral IP
     }
   }
+
   provisioner "remote-exec" {
-    inline = ["sudo yum install -y python python-simplejson"]
+    inline = [
+    	"sudo yum install -y docker git"
+	]
 
     connection {
       type        = "ssh"
       user        = "cesar_moraga_galdames"
       private_key = "${file("~/.ssh/google_compute_engine")}"
-#      agent       = false
     }
   }
 }
@@ -68,7 +70,6 @@ resource "google_compute_instance" "db-vm" {
 
   metadata {
     hostname = "db-vm"
-    #sshKeys = "root:${file("~/.ssh/id_rsa.pub")}"
   }
 
   network_interface {
@@ -84,11 +85,11 @@ resource "google_compute_instance" "db-vm" {
 	"sudo yum install -y http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm",
 	"sudo yum install -y mysql-community-server wget",
 	"sudo systemctl start mysqld",
-	"systemctl enable mysqld.service",
-	"mysqladmin -u root password ${var.mysql["passwordRoot"]}",
-	"echo 'create database test;' | mysql -u username -pmysql -u username -p ",
+	"sudo systemctl enable mysqld.service",
+	"sudo mysqladmin -u root password ${var.mysql["passwordRoot"]}",
+	"echo 'create database test;' | sudo mysql -u root -p${var.mysql["passwordRoot"]} ",
 	"wget https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/dump.sql -O /tmp/dump.sql",
-	"mysql -u root -p${var.mysql["passwordRoot"]} < /tmp/dump.sql"
+	"sudo mysql -u root -p${var.mysql["passwordRoot"]} test< /tmp/dump.sql"
 	]
 
     connection {
