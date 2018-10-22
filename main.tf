@@ -35,7 +35,9 @@ resource "google_compute_instance" "applications-vm" {
 
   provisioner "remote-exec" {
     inline = [
-    	"sudo yum install -y docker git wget",
+    	"sudo yum install -y yum-utils device-mapper-persistent-data lvm2 git wget",
+    	"sudo sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo",
+    	"sudo yum install -y docker-ce",
 	"sudo systemctl start docker",
 	"git clone https://github.com/cesmoraga/terraform-ansible.git",
 	"sudo docker build . -f terraform-ansible/AppBuild/Dockerfile -t hello-world --no-cache",
@@ -94,8 +96,7 @@ resource "google_compute_instance" "db-vm" {
 	"echo 'create database test;' | sudo mysql -u root -p${var.mysql["passwordRoot"]} ",
 	"wget https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/dump.sql -O /tmp/dump.sql",
 	"sudo mysql -u root -p${var.mysql["passwordRoot"]} test< /tmp/dump.sql",
-	"echo 'CREATE USER '${var.mysql["userTest"]}'@'${var.mysql["ipfuente"]}' IDENTIFIED BY '${var.mysql["passwordTest"]}';' | sudo mysql -u root -p${var.mysql["passwordRoot"]} ",
-	"echo 'GRANT ALL ON test.* TO '${var.mysql["userTest"]}'@'${var.mysql["ipfuente"]}' IDENTIFIED BY '${var.mysql["passwordTest"]}';' | sudo mysql -u root -p${var.mysql["passwordRoot"]} "
+	"sudo mysql -u root -p${var.mysql["passwordRoot"]} -e \"GRANT ALL ON test.* TO '${var.mysql["userTest"]}'@'${var.mysql["ipfuente"]}' IDENTIFIED BY '${var.mysql["passwordTest"]}';\" "
 	
 	]
 
