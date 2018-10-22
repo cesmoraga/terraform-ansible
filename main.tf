@@ -35,7 +35,11 @@ resource "google_compute_instance" "applications-vm" {
 
   provisioner "remote-exec" {
     inline = [
-    	"sudo yum install -y docker git"
+    	"sudo yum install -y docker git wget",
+	"sudo systemctl start docker",
+	"git clone https://github.com/cesmoraga/terraform-ansible.git",
+	"sudo docker build . -f terraform-ansible/AppBuild/Dockerfile -t hello-world --no-cache",
+	"sudo docker run -d -p 3000:3000 hello-world"
 	]
 
     connection {
