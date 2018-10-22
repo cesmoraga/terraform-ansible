@@ -13,7 +13,7 @@ resource "google_compute_instance" "applications-vm" {
   tags = [
     "${var.network}-firewall-ssh",
     "${var.network}-firewall-apps",
-    "${var.network}-monitor-apps",
+    "${var.network}-firewall-monitor-apps",
   ]
 
   boot_disk {
@@ -27,10 +27,11 @@ resource "google_compute_instance" "applications-vm" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.ovirt_network_subnetwork.name}"
+  subnetwork = "${google_compute_subnetwork.ovirt_network_subnetwork.name}"
 
     access_config {
-      // Ephemeral IP
+     // Ephemeral IP
+#       nat_ip = "10.0.0.2"
     }
   }
 
@@ -84,6 +85,7 @@ resource "google_compute_instance" "db-vm" {
 
     access_config {
       // Ephemeral IP
+#       nat_ip = "10.0.0.3"
     }
   }
  
