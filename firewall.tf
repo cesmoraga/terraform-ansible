@@ -36,3 +36,16 @@ resource "google_compute_firewall" "firewall-secure-forward" {
   target_tags   = ["${var.network}-firewall-secure-forward"]
   source_ranges = ["0.0.0.0/0"]
 }
+
+resource "google_compute_firewall" "monitor-apps" {
+  name    = "${var.network}-firewall-monitor-apps"
+  network = "${google_compute_network.ovirt_network.name}"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["4000"]
+  }
+
+  target_tags   = ["${var.network}-firewall-monitor-apps"]
+  source_ranges = ["0.0.0.0/0"]
+}
