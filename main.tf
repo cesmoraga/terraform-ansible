@@ -13,6 +13,7 @@ resource "google_compute_instance" "applications-vm" {
   tags = [
     "${var.network}-firewall-ssh",
     "${var.network}-firewall-apps",
+    "${var.network}-monitor-apps",
   ]
 
   boot_disk {
