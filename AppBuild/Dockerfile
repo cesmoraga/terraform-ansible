@@ -10,7 +10,10 @@ RUN eval "$(ssh-agent -s)" && ssh-add /tmp/key && ssh -o StrictHostKeyChecking=n
 WORKDIR /root/hello-world
 RUN mvn clean install
 
-EXPOSE 3000
+ADD https://github.com/glowroot/glowroot/releases/download/v0.11.1/glowroot-0.11.1-dist.zip /tmp/glowroot.zip
+RUN unzip /tmp/glowroot.zip
 
-CMD ["java", "-Xms500m", "-Xmx2500m", "-jar", "target/dm-0.0.1-SNAPSHOT.jar"]
+EXPOSE 3000 4000
+
+CMD ["java", "-Xms500m", "-Xmx2500m", "-jar", "target/dm-0.0.1-SNAPSHOT.jar", "-javaagent:glowroot/glowroot.jar"]
 
