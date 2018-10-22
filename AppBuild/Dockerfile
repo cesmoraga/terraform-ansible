@@ -16,5 +16,5 @@ ADD https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/AppBuil
 
 EXPOSE 3000 4000
 
-CMD ["java", "-Xms500m", "-Xmx2500m", "-jar", "target/dm-0.0.1-SNAPSHOT.jar", "-javaagent:glowroot/glowroot.jar"]
+CMD ["java", "-Xms500m", "-Xmx2500m", "-javaagent:glowroot/glowroot.jar", "-jar", "target/dm-0.0.1-SNAPSHOT.jar"]
 
