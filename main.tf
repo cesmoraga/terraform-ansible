@@ -93,7 +93,10 @@ resource "google_compute_instance" "db-vm" {
 	"sudo mysqladmin -u root password ${var.mysql["passwordRoot"]}",
 	"echo 'create database test;' | sudo mysql -u root -p${var.mysql["passwordRoot"]} ",
 	"wget https://raw.githubusercontent.com/cesmoraga/terraform-ansible/master/dump.sql -O /tmp/dump.sql",
-	"sudo mysql -u root -p${var.mysql["passwordRoot"]} test< /tmp/dump.sql"
+	"sudo mysql -u root -p${var.mysql["passwordRoot"]} test< /tmp/dump.sql",
+	"echo 'CREATE USER '${var.mysql["userTest"]}'@'${var.mysql["ipfuente"]}' IDENTIFIED BY '${var.mysql["passwordTest"]}';' | sudo mysql -u root -p${var.mysql["passwordRoot"]} ",
+	"echo 'GRANT ALL ON test.* TO '${var.mysql["userTest"]}'@'${var.mysql["ipfuente"]}' IDENTIFIED BY '${var.mysql["passwordTest"]}';' | sudo mysql -u root -p${var.mysql["passwordRoot"]} "
+	
 	]
 
     connection {
