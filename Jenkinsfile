@@ -1,12 +1,7 @@
 pipeline {
-  agent {
-    docker {
-      image 'hashicorp/terraform:light'
-    }
-
-  }
+  agent none
   stages {
-    stage('') {
+    stage('error') {
       steps {
         sh 'terraform version'
       }
