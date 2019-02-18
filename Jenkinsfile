@@ -7,8 +7,17 @@ pipeline {
   }
   stages {
     stage('error') {
-      steps {
-        sh 'terraform version'
+      parallel {
+        stage('error') {
+          steps {
+            sh 'terraform version'
+          }
+        }
+        stage('test') {
+          steps {
+            sh 'hostname'
+          }
+        }
       }
     }
   }
